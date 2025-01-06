@@ -36,7 +36,7 @@ function render(variables = {}) {
           <h1>${variables.name || ""} ${variables.lastName || ""}</h1>
           <h2>${variables.role || ""}</h2>
           <h3>${variables.city || ""}, ${variables.country || ""}</h3>
-          <ul class="position-right">
+          <ul class="position-left">
             <li><a href="${variables.twitter ||
               ""}"><i class="fab fa-twitter"></i></a></li>
             <li><a href="${variables.github ||
@@ -90,6 +90,37 @@ window.onload = function() {
           ? false
           : this.value;
       render(Object.assign(window.variables, values)); // render again the card with new values
+    });
+  });
+
+  document.querySelectorAll(".input").forEach(function(elm) {
+    elm.addEventListener("input", function(e) {
+      // <- add a listener to every input
+      const attribute = e.target.getAttribute("for"); // when any input changes, collect the value
+      let values = {};
+      values[attribute] =
+        this.value == "" || this.value == "null"
+          ? null
+          : this.value == "true"
+          ? true
+          : this.value == "false"
+          ? false
+          : this.value;
+      render(Object.assign(window.variables, values)); // render again the card with new values
+    });
+  });
+
+  const elements = document.querySelectorAll(".picker, .input");
+
+  elements.forEach(el => {
+    el.addEventListener("mouseover", () => {
+      //el.style.margin = "10px";
+      el.style.backgroundColor = "#ffcccc";
+    });
+
+    el.addEventListener("mouseout", () => {
+      el.style.margin = "0"; // Reset the margin
+      el.style.backgroundColor = ""; // Reset the background color
     });
   });
 };
